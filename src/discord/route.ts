@@ -152,7 +152,11 @@ router.get(
 
             return res.status(200).json(responseUserData);
         } catch (error) {
-            console.error(error);
+            console.error('Error during Discord OAuth2 process:', error);
+            return res.status(500).json({
+                message: 'Internal Server Error',
+                error: error instanceof Error ? error.message : 'Unknown error',
+            });
         }
     }
 );

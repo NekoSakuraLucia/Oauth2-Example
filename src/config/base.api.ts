@@ -1,7 +1,12 @@
 const BASE_URI = {
     discord: {
-        uri: 'https://discord.com',
+        original_uri: 'https://discord.com',
         version: 'v10',
+    },
+    google: {
+        account_uri: 'https://accounts.google.com',
+        oauth_uri: 'https://oauth2.googleapis.com',
+        original_uri: 'https://www.googleapis.com',
     },
 } as const;
 

@@ -8,6 +8,9 @@ import { AllRoutes } from './allRoutes/route';
 // Discord Provider
 import { DiscordProvider } from './discord/route';
 
+// Google Provider
+import { GoogleProvider } from './google/route';
+
 // constant
 const SERVER_PORT = parseInt(process.env.SERVER_PORT as string) ?? 5000;
 
@@ -25,6 +28,9 @@ class Started {
 
         // Discord Provider
         this.app.use('/discord', DiscordProvider);
+
+        // Google Provider
+        this.app.use('/google', GoogleProvider);
     }
 }
 

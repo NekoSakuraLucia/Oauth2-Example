@@ -77,9 +77,9 @@ type AuthorizationParam = Omit<
 >;
 
 // ข้อมูลจาก .env
-const CLIENT_ID = process.env.CLIENT_ID as string;
-const CLIENT_SECRET = process.env.CLIENT_SECRET as string;
-const REDIRECT_URI = process.env.REDIRECT_URI as string;
+const CLIENT_ID = process.env.DISCORD_CLIENT_ID as string;
+const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET as string;
+const REDIRECT_URI = process.env.DISCORD_REDIRECT_URI as string;
 
 router.get('/auth', (req: Request, res: Response) => {
     const queryParam: AuthorizationParam = {
@@ -93,7 +93,7 @@ router.get('/auth', (req: Request, res: Response) => {
         base_uri.discord.uri
     }/oauth2/authorize?${qs.stringify(queryParam)}`;
 
-    res.redirect(authorization);
+    return res.redirect(authorization);
 });
 
 router.get(

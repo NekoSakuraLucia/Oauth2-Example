@@ -89,9 +89,9 @@ router.get('/auth', (req: Request, res: Response) => {
         redirect_uri: REDIRECT_URI,
     };
 
-    const authorization = `${base_uri.discord}/oauth2/authorize?${qs.stringify(
-        queryParam
-    )}`;
+    const authorization = `${
+        base_uri.discord.uri
+    }/oauth2/authorize?${qs.stringify(queryParam)}`;
 
     res.redirect(authorization);
 });
@@ -111,14 +111,14 @@ router.get(
 
         try {
             const response = await axios.post(
-                `${base_uri.discord}/api/oauth2/token`,
+                `${base_uri.discord.uri}/api/${base_uri.discord.version}/oauth2/token`,
                 qs.stringify(queryParam),
                 {}
             );
 
             const { token_type, access_token }: IResponseData = response.data;
             const responseUser = await axios.get(
-                `${base_uri.discord}/api/v10/users/@me`,
+                `${base_uri.discord.uri}/api/${base_uri.discord.version}/users/@me`,
                 {
                     headers: {
                         Authorization: `${token_type} ${access_token}`,

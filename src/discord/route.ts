@@ -126,7 +126,7 @@ router.get(
                 }
             );
 
-            const user = responseUser.data as IUserData;
+            const user: IUserData = responseUser.data;
             const responseUserData: IUserData = {
                 id: user.id || '',
                 username: user.username || '',

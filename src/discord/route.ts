@@ -22,7 +22,7 @@ interface IResponseData {
 
 /**
  * ข้อมูลประเภทมาจากส่วน `[GET]`: `/auth/callback`
- * เป็นประเภทสำหรับการรับข้อมูลผู้ใช้จาก Discord API
+ * เป็นประเภทสำหรับการรับข้อมูลผู้ใช้จาก Discord OAuth2 API
  */
 interface IUserData {
     id: string;
@@ -46,10 +46,19 @@ interface IUserData {
 }
 
 /**
+ * ข้อมูลประเภทมาจากส่วน `[GET]`: `/auth/callback`
+ *
+ * เป็นประเภทสำหรับการรับค่า `code` จาก Discord OAuth2 API
+ */
+type QueryResponse = {
+    code: string;
+};
+
+/**
  * ข้อมูลประเภทมาจากส่วน `[GET]`: `/auth` และ `[GET]`: `/auth/callback`
  *
  *
- * เป็นส่วน ที่ใช้ในการส่งค่าไปยัง Discord API
+ * เป็นส่วน ที่ใช้ในการส่งค่าไปยัง Discord OAuth2 API
  */
 type QueryParam =
     | 'client_id'
@@ -70,6 +79,7 @@ type CallbackParam = Omit<
 
 /**
  * ข้อมูลประเภทมาจากส่วน `[GET]`: `/auth`
+ * สำหรับค่า Object ที่ส่งไปยัง Google OAuth2 API
  */
 type AuthorizationParam = Omit<
     Record<QueryParam, string>,
@@ -90,7 +100,7 @@ router.get('/auth', (req: Request, res: Response) => {
     };
 
     const authorization = `${
-        base_uri.discord.uri
+        base_uri.discord.original_uri
     }/oauth2/authorize?${qs.stringify(queryParam)}`;
 
     return res.redirect(authorization);
@@ -99,7 +109,7 @@ router.get('/auth', (req: Request, res: Response) => {
 router.get(
     '/auth/callback',
     async (req: Request, res: Response): Promise<any> => {
-        const code = (req.query as { code: string }).code;
+        const code = (req.query as QueryResponse).code;
 
         const queryParam: CallbackParam = {
             client_id: CLIENT_ID,
@@ -111,14 +121,14 @@ router.get(
 
         try {
             const response = await axios.post(
-                `${base_uri.discord.uri}/api/${base_uri.discord.version}/oauth2/token`,
+                `${base_uri.discord.original_uri}/api/${base_uri.discord.version}/oauth2/token`,
                 qs.stringify(queryParam),
                 {}
             );
 
             const { token_type, access_token }: IResponseData = response.data;
             const responseUser = await axios.get(
-                `${base_uri.discord.uri}/api/${base_uri.discord.version}/users/@me`,
+                `${base_uri.discord.original_uri}/api/${base_uri.discord.version}/users/@me`,
                 {
                     headers: {
                         Authorization: `${token_type} ${access_token}`,

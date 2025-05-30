@@ -8,13 +8,27 @@ import { AllRoutes } from './allRoutes/route';
 // Discord Provider
 import { DiscordProvider } from './discord/route';
 
-const app = Express();
-const PORT = parseInt(process.env.SERVER_PORT as string) ?? 5000;
+// constant
+const SERVER_PORT = parseInt(process.env.SERVER_PORT as string) ?? 5000;
 
-// Discord OAuth2
-app.use('/discord', DiscordProvider);
-app.use(AllRoutes);
+class Started {
+    public app: Express.Application;
 
-app.listen(PORT, () => {
-    console.log(`Server Running on Port ${PORT}`);
-});
+    constructor() {
+        this.app = Express();
+        this.initializeRoutes();
+    }
+
+    private initializeRoutes(): void {
+        // All Routes
+        this.app.use(AllRoutes);
+
+        // Discord Provider
+        this.app.use('/discord', DiscordProvider);
+    }
+}
+
+const server = new Started();
+server.app.listen(SERVER_PORT, () =>
+    console.log(`Server Running on PORT ${SERVER_PORT}`)
+);

@@ -3,7 +3,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 // BASE_URI
-import { base_uri } from '../config/base.api';
+import { base_uri } from '../../config/base.api';
 
 const router = Router();
 

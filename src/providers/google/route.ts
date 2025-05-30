@@ -5,7 +5,7 @@ import qs from 'qs';
 const router = Router();
 
 // BASE_URI
-import { base_uri } from '../config/base.api';
+import { base_uri } from '../../config/base.api';
 
 // Types
 
@@ -124,7 +124,11 @@ router.get(
             const user: IUserData = responseData.data;
             return res.status(200).json(user);
         } catch (error) {
-            console.error(error);
+            console.error('Error during Google OAuth2 process:', error);
+            return res.status(500).json({
+                message: 'Internal Server Error',
+                error: error instanceof Error ? error.message : 'Unknown error',
+            });
         }
     }
 );

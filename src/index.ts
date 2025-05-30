@@ -6,10 +6,10 @@ dotenv.config();
 import { AllRoutes } from './allRoutes/route';
 
 // Discord Provider
-import { DiscordProvider } from './discord/route';
+import { DiscordProvider } from './providers/discord/route';
 
 // Google Provider
-import { GoogleProvider } from './google/route';
+import { GoogleProvider } from './providers/google/route';
 
 // constant
 const SERVER_PORT = parseInt(process.env.SERVER_PORT as string) ?? 5000;

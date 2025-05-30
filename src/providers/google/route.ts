@@ -1,11 +1,14 @@
 import axios from 'axios';
 import { Router, Request, Response } from 'express';
 import qs from 'qs';
-
-const router = Router();
-
 // BASE_URI
 import { base_uri } from '../../config/base.api';
+
+// ข้อมูลจาก .env และ Express Router
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
+const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
+const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI as string;
+const router = Router();
 
 // Types
 
@@ -70,11 +73,6 @@ type AuthorizationParam = Omit<
     Record<QueryParam, string>,
     'client_secret' | 'code' | 'grant_type'
 >;
-
-// ข้อมูลจาก .env
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
-const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
-const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI as string;
 
 router.get('/auth', (req: Request, res: Response): any => {
     const queryParam: AuthorizationParam = {

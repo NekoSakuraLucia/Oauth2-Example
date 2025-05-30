@@ -1,10 +1,13 @@
 import { Request, Response, Router } from 'express';
 import axios from 'axios';
 import qs from 'qs';
-
 // BASE_URI
 import { base_uri } from '../../config/base.api';
 
+// ข้อมูลจาก .env และ Express Router
+const CLIENT_ID = process.env.DISCORD_CLIENT_ID as string;
+const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET as string;
+const REDIRECT_URI = process.env.DISCORD_REDIRECT_URI as string;
 const router = Router();
 
 // Types
@@ -85,11 +88,6 @@ type AuthorizationParam = Omit<
     Record<QueryParam, string>,
     'client_secret' | 'code' | 'grant_type'
 >;
-
-// ข้อมูลจาก .env
-const CLIENT_ID = process.env.DISCORD_CLIENT_ID as string;
-const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET as string;
-const REDIRECT_URI = process.env.DISCORD_REDIRECT_URI as string;
 
 router.get('/auth', (req: Request, res: Response) => {
     const queryParam: AuthorizationParam = {

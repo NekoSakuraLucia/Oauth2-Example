@@ -32,9 +32,13 @@ class Started {
         // Google Provider
         this.app.use('/google', GoogleProvider);
     }
+
+    public start() {
+        this.app.listen(SERVER_PORT, () => {
+            console.log(`Server Running on PORT ${SERVER_PORT}`);
+        });
+    }
 }
 
 const server = new Started();
-server.app.listen(SERVER_PORT, () =>
-    console.log(`Server Running on PORT ${SERVER_PORT}`)
-);
+server.start();

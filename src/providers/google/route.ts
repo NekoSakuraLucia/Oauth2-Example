@@ -13,7 +13,7 @@ const router = Router();
 // Types
 
 /**
- * ข้อมูลประเภทจากส่วน บรรทัด: `61 / 79`
+ * ข้อมูลประเภทจากส่วน บรรทัด: `112 / 79`
  *
  * ```ts
  * const { token_type, access_token } = response.data;

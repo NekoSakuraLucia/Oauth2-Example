@@ -57,9 +57,14 @@
     GOOGLE_CLIENT_ID='your_google_client_id'
     GOOGLE_CLIENT_SECRET='your_google_client_secret'
     GOOGLE_REDIRECT_URI='http://localhost:3000/google/auth/callback' # ตรวจสอบให้ตรงกับที่ตั้งค่าใน Google Cloud Console
+
+    # Spotify Provider
+    SPOTIFY_CLIENT_ID='your_spotify_client_id'
+    SPOTIFY_CLIENT_SECRET='your_spotify_client_secret'
+    SPOTIFY_REDIRECT_URI='http://127.0.0.1:3000/spotify/auth/callback'
     ```
 
-    **สำคัญ:** `REDIRECT_URI` ในไฟล์ `.env` จะต้องตรงกับที่คุณตั้งค่าไว้ในหน้า Dashboard ของแต่ละ OAuth Provider (Discord Developer Portal, Google Cloud Console)
+    **สำคัญ:** `REDIRECT_URI` ในไฟล์ `.env` จะต้องตรงกับที่คุณตั้งค่าไว้ในหน้า Dashboard ของแต่ละ OAuth Provider (Discord Developer Portal, Google Cloud Console, Spotify Developer, หรือเจ้าอื่นๆ...)
 
 ## การใช้งาน
 

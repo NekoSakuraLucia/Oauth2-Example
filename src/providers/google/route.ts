@@ -74,7 +74,7 @@ type AuthorizationParam = Omit<
     'client_secret' | 'code' | 'grant_type'
 >;
 
-router.get('/auth', (req: Request, res: Response): any => {
+router.get('/auth', (req: Request, res: Response) => {
     const queryParam: AuthorizationParam = {
         client_id: CLIENT_ID,
         response_type: 'code',
@@ -82,11 +82,11 @@ router.get('/auth', (req: Request, res: Response): any => {
         redirect_uri: REDIRECT_URI,
     };
 
-    return res.redirect(
-        `${base_uri.google.account_uri}/o/oauth2/v2/auth?${qs.stringify(
-            queryParam
-        )}`
-    );
+    const authorization = `${
+        base_uri.google.account_uri
+    }/o/oauth2/v2/auth?${qs.stringify(queryParam)}`;
+
+    return res.redirect(authorization);
 });
 
 router.get(

@@ -33,7 +33,7 @@ class Started {
         this.app.use('/google', GoogleProvider);
     }
 
-    public start() {
+    public start(): void {
         this.app.listen(SERVER_PORT, () => {
             console.log(`Server Running on PORT ${SERVER_PORT}`);
         });

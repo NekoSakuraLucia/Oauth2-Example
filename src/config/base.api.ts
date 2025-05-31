@@ -8,6 +8,11 @@ const BASE_URI = {
         oauth_uri: 'https://oauth2.googleapis.com',
         original_uri: 'https://www.googleapis.com',
     },
+    spotify: {
+        account_uri: 'https://accounts.spotify.com',
+        original_uri: 'https://api.spotify.com',
+        version: 'v1',
+    },
 } as const;
 
 export { BASE_URI as base_uri };

@@ -11,6 +11,9 @@ import { DiscordProvider } from './providers/discord/route';
 // Google Provider
 import { GoogleProvider } from './providers/google/route';
 
+// Spotify Provider
+import { SpotifyProvider } from './providers/spotify/route';
+
 // constant
 const SERVER_PORT = parseInt(process.env.SERVER_PORT as string) ?? 5000;
 
@@ -31,6 +34,9 @@ class Started {
 
         // Google Provider
         this.app.use('/google', GoogleProvider);
+
+        // Spotify Provider
+        this.app.use('/spotify', SpotifyProvider);
     }
 
     public start(): void {

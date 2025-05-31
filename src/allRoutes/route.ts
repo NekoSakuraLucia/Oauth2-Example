@@ -11,6 +11,11 @@ const allRoutes = [
         description: 'Google OAuth2 Provider',
         routes: ['/google/auth', '/google/auth/callback'],
     },
+    {
+        name: 'Spotify Provider',
+        description: 'Spotify OAuth2 Provider',
+        routes: ['/spotify/auth', '/spotify/auth/callback'],
+    },
 ];
 
 const router = Router();

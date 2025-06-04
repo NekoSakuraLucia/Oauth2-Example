@@ -5,7 +5,7 @@ import qs from 'qs';
 // BASE_URI
 import { base_uri } from '../../config/base.api';
 
-// // ข้อมูลจาก .env และ Express Router
+// ข้อมูลจาก .env และ Express Router
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID as string;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET as string;
 const REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI as string;
@@ -21,8 +21,11 @@ const router = Router();
  * ```
  */
 interface IResponseData {
-    token_type: string;
     access_token: string;
+    token_type: string;
+    scope: string;
+    expires_in: number;
+    refresh_token: string;
 }
 
 /**
@@ -106,7 +109,7 @@ router.get('/auth', (req: Request, res: Response): any => {
         client_id: CLIENT_ID,
         response_type: 'code',
         redirect_uri: REDIRECT_URI,
-        scope: 'user-read-private user-read-email',
+        scope: 'user-read-private user-read-email user-top-read',
     };
     const authorization = `${
         base_uri.spotify.account_uri
@@ -127,7 +130,7 @@ router.get(
         };
 
         try {
-            const response = await axios.post(
+            const response = await axios.post<IResponseData>(
                 `${base_uri.spotify.account_uri}/api/token`,
                 qs.stringify(queryParam),
                 {
@@ -141,8 +144,8 @@ router.get(
                 }
             );
 
-            const { token_type, access_token }: IResponseData = response.data;
-            const responseData = await axios.get(
+            const { token_type, access_token } = response.data;
+            const responseData = await axios.get<IUserData>(
                 `${base_uri.spotify.original_uri}/${base_uri.spotify.version}/me`,
                 {
                     headers: {
@@ -151,7 +154,7 @@ router.get(
                 }
             );
 
-            const user: IUserData = responseData.data;
+            const user = responseData.data;
             return res.status(200).json(user);
         } catch (error) {
             console.error('Error during Spotify OAuth2 process:', error);

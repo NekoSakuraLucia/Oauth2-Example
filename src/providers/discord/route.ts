@@ -21,6 +21,9 @@ const router = Router();
 interface IResponseData {
     token_type: string;
     access_token: string;
+    expires_in: number;
+    refresh_token: string;
+    scope: string;
 }
 
 /**
@@ -118,14 +121,14 @@ router.get(
         };
 
         try {
-            const response = await axios.post(
+            const response = await axios.post<IResponseData>(
                 `${base_uri.discord.original_uri}/api/${base_uri.discord.version}/oauth2/token`,
                 qs.stringify(queryParam),
                 {}
             );
 
-            const { token_type, access_token }: IResponseData = response.data;
-            const responseUser = await axios.get(
+            const { token_type, access_token } = response.data;
+            const responseUser = await axios.get<IUserData>(
                 `${base_uri.discord.original_uri}/api/${base_uri.discord.version}/users/@me`,
                 {
                     headers: {
@@ -134,7 +137,7 @@ router.get(
                 }
             );
 
-            const user: IUserData = responseUser.data;
+            const user = responseUser.data;
             const responseUserData: IUserData = {
                 id: user.id || '',
                 username: user.username || '',

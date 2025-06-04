@@ -23,6 +23,9 @@ const router = Router();
 interface IResponseData {
     token_type: string;
     access_token: string;
+    expires_in: number;
+    scope: string;
+    id_token: string;
 }
 
 /**
@@ -104,14 +107,14 @@ router.get(
         };
 
         try {
-            const response = await axios.post(
+            const response = await axios.post<IResponseData>(
                 `${base_uri.google.oauth_uri}/token`,
                 qs.stringify(queryParam),
                 {}
             );
 
-            const { token_type, access_token }: IResponseData = response.data;
-            const responseData = await axios.get(
+            const { token_type, access_token } = response.data;
+            const responseData = await axios.get<IUserData>(
                 `${base_uri.google.original_uri}/oauth2/v1/userinfo`,
                 {
                     headers: {
@@ -120,7 +123,7 @@ router.get(
                 }
             );
 
-            const user: IUserData = responseData.data;
+            const user = responseData.data;
             return res.status(200).json(user);
         } catch (error) {
             console.error('Error during Google OAuth2 process:', error);

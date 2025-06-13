@@ -138,7 +138,7 @@ router.get(
                         Authorization:
                             'Basic ' +
                             Buffer.from(
-                                CLIENT_ID + ':' + CLIENT_SECRET
+                                `${CLIENT_ID}:${CLIENT_SECRET}`
                             ).toString('base64'),
                     },
                 }

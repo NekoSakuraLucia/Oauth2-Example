@@ -86,9 +86,9 @@ router.get('/auth', (req: Request, res: Response) => {
         redirect_uri: REDIRECT_URI,
     };
 
-    const authorization = `${
-        base_uri.google.account_uri
-    }/o/oauth2/v2/auth?${qs.stringify(queryParam)}`;
+    const authorization =
+        `${base_uri.google.account_uri}/o/oauth2/v2/auth?` +
+        qs.stringify(queryParam);
 
     return res.redirect(authorization);
 });
@@ -110,7 +110,7 @@ router.get(
             const response = await axios.post<IResponseData>(
                 `${base_uri.google.oauth_uri}/token`,
                 qs.stringify(queryParam),
-                {}
+                {},
             );
 
             const { token_type, access_token } = response.data;
@@ -120,7 +120,7 @@ router.get(
                     headers: {
                         Authorization: `${token_type} ${access_token}`,
                     },
-                }
+                },
             );
 
             const user = responseData.data;
@@ -132,7 +132,7 @@ router.get(
                 error: error instanceof Error ? error.message : 'Unknown error',
             });
         }
-    }
+    },
 );
 
 export { router as GoogleProvider };

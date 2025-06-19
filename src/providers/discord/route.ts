@@ -100,9 +100,9 @@ router.get('/auth', (req: Request, res: Response) => {
         redirect_uri: REDIRECT_URI,
     };
 
-    const authorization = `${
-        base_uri.discord.original_uri
-    }/oauth2/authorize?${qs.stringify(queryParam)}`;
+    const authorization =
+        `${base_uri.discord.original_uri}/oauth2/authorize?` +
+        qs.stringify(queryParam);
 
     return res.redirect(authorization);
 });
@@ -122,19 +122,19 @@ router.get(
 
         try {
             const response = await axios.post<IResponseData>(
-                `${base_uri.discord.original_uri}/api/${base_uri.discord.version}/oauth2/token`,
+                `${base_uri.discord.original_uri}/oauth2/token`,
                 qs.stringify(queryParam),
-                {}
+                {},
             );
 
             const { token_type, access_token } = response.data;
             const responseUser = await axios.get<IUserData>(
-                `${base_uri.discord.original_uri}/api/${base_uri.discord.version}/users/@me`,
+                `${base_uri.discord.original_uri}/users/@me`,
                 {
                     headers: {
                         Authorization: `${token_type} ${access_token}`,
                     },
-                }
+                },
             );
 
             const user = responseUser.data;
@@ -169,7 +169,7 @@ router.get(
                 error: error instanceof Error ? error.message : 'Unknown error',
             });
         }
-    }
+    },
 );
 
 export { router as DiscordProvider };

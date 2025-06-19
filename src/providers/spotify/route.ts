@@ -111,9 +111,8 @@ router.get('/auth', (req: Request, res: Response): any => {
         redirect_uri: REDIRECT_URI,
         scope: 'user-read-private user-read-email user-top-read',
     };
-    const authorization = `${
-        base_uri.spotify.account_uri
-    }/authorize?${qs.stringify(queryParam)}`;
+    const authorization =
+        `${base_uri.spotify.account_uri}/authorize?` + qs.stringify(queryParam);
 
     return res.redirect(authorization);
 });
@@ -138,20 +137,20 @@ router.get(
                         Authorization:
                             'Basic ' +
                             Buffer.from(
-                                `${CLIENT_ID}:${CLIENT_SECRET}`
+                                `${CLIENT_ID}:${CLIENT_SECRET}`,
                             ).toString('base64'),
                     },
-                }
+                },
             );
 
             const { token_type, access_token } = response.data;
             const responseData = await axios.get<IUserData>(
-                `${base_uri.spotify.original_uri}/${base_uri.spotify.version}/me`,
+                `${base_uri.spotify.original_uri}/me`,
                 {
                     headers: {
                         Authorization: `${token_type} ${access_token}`,
                     },
-                }
+                },
             );
 
             const user = responseData.data;
@@ -163,7 +162,7 @@ router.get(
                 error: error instanceof Error ? error.message : 'Unknown error',
             });
         }
-    }
+    },
 );
 
 export { router as SpotifyProvider };

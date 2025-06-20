@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import qs from 'qs';
 
 // BASE_URI
@@ -104,7 +104,7 @@ type AuthorizationParam = Omit<
     'code' | 'grant_type'
 >;
 
-router.get('/auth', (req: Request, res: Response): any => {
+router.get('/auth', ({ req, res }: IExpressRES): any => {
     const queryParam: AuthorizationParam = {
         client_id: CLIENT_ID,
         response_type: 'code',
@@ -119,7 +119,7 @@ router.get('/auth', (req: Request, res: Response): any => {
 
 router.get(
     '/auth/callback',
-    async (req: Request, res: Response): Promise<any> => {
+    async ({ req, res }: IExpressRES): Promise<any> => {
         const code = (req.query as QueryResponse).code;
 
         const queryParam: CallbackParam = {
